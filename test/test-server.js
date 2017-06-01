@@ -171,6 +171,7 @@ describe('Recipes', function() {
         });
     });
 
+    //POST test
     it('should add an item on POST', function() {
         const newItem = {name: 'recipeName', ingredients: ['one', 'two', 'three']};
         return chai.request(app)
@@ -186,6 +187,7 @@ describe('Recipes', function() {
             });
     });
 
+    //PUT test
     it('should update items on PUT', function() {
 
         const updateData = {
@@ -207,6 +209,19 @@ describe('Recipes', function() {
             res.body.should.be.a('object');
             res.body.should.deep.equal(updateData);
         });
-    })
+    });
+
+    //DELETE test
+    it('should delete items on DELETE', function() {
+        return chai.request(app)
+        .get('/recipes')
+        .then(function(res) {
+            return chai.request(app)
+            .delete(`/recipes/${res.body[0].id}`);
+        })
+        .then(function(res) {
+            res.should.have.status(204);
+        });
+    });
 
 }); //end of Recipes test
